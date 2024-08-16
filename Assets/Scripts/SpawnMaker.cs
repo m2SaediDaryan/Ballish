@@ -20,11 +20,6 @@ public class SpawnMaker : MonoBehaviour
         StartCoroutine(SpawnPrefabs());
     }
 
-    void Update()
-    {
-
-    }
-
     /*public void SpawnGenerate()
     {
         for (int i = 0; i < maxGenerate; i++)
