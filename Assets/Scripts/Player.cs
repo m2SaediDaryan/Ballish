@@ -1,24 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float numberCollected;
     public float moveSpeed = 5f; // Speed at which the object will move
-    public ScoreManager scoreManager;
-    [SerializeField] public GameObject trigger;
+    //private Dots dots;
+    [SerializeField] private Color newColor;
+    [SerializeField] private GameObject trigger; // Placeholder for future use if needed
 
     [Header("Colors")]
-    string White = "#FDFFFC";
-    string Red = "#FF0022";
-    string AbiLow = "#41EAD4";
-    string AbiHigh = "#2E86AB";
-    public string[] colorPalletePlayer;
+    private string[] colorPalettePlayer = { "#FDFFFC", "#FF0022", "#41EAD4", "#2E86AB" };
+    [SerializeField] private Color colorOfPlayer;
 
     void Start()
     {
-        colorPalletePlayer = new string[] { White, Red, AbiLow, AbiHigh };
+        //dots = FindObjectOfType<Dots>();
+        StartCoroutine(ChangeColorCo());
+        //CheckColor();
     }
 
     void Update()
@@ -35,40 +33,57 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Dot")
+        //string tag = other.tag;
+        /*if (other.CompareTag("Dot"))
         {
             Destroy(other.gameObject);
-            Debug.Log("Triggerd");
-        }
+            // Debug.Log("Triggered");
+        }*/
 
+        if (ColorToHex(colorOfPlayer) == other.tag)
+        {
+
+            Destroy(other.gameObject);
+            //Debug.Log("Same object you find");
+        }
+        else
+        {
+            Debug.Log("lose");
+        }
     }
 
     void ChangeColor()
     {
-        int randomIndex = Random.Range(0, colorPalletePlayer.Length);
-        string selectHexColor = colorPalletePlayer[randomIndex];
-        Debug.Log("in change color");
+        int randomIndex = Random.Range(0, colorPalettePlayer.Length);
+        string selectedHexColor = colorPalettePlayer[randomIndex];
 
-        Color newColor;
-        if (ColorUtility.TryParseHtmlString(selectHexColor, out newColor))
+        if (ColorUtility.TryParseHtmlString(selectedHexColor, out newColor))
         {
-            // Apply the color to the player's material
             Renderer renderer = GetComponent<Renderer>();
             if (renderer != null)
             {
                 renderer.material.color = newColor;
-                Debug.Log("color Changed");
+                colorOfPlayer = newColor;
             }
         }
         else
         {
-            Debug.LogError("Invalid Hex color code: " + selectHexColor);
+            Debug.LogError("Invalid Hex color code: " + selectedHexColor);
         }
     }
 
     IEnumerator ChangeColorCo()
     {
-        //if()
-        yield return null;
+        while (true)
+        {
+            ChangeColor();
+            yield return new WaitForSeconds(12f);
+        }
+    }
+
+    //this func added because to get hex name of color
+    public string ColorToHex(Color color)
+    {
+        return $"#{ColorUtility.ToHtmlStringRGB(color)}";
     }
 }
