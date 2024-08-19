@@ -17,7 +17,7 @@ GameObject:
   m_TagString: '#41EAD4'
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1924738857345601339
 Transform:

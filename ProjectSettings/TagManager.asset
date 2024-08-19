@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Dot
+  - '#FDFFFC'
+  - '#FF0022'
+  - '#41EAD4'
+  - '#2E86AB'
   layers:
   - Default
   - TransparentFX

@@ -4,7 +4,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float moveSpeed = 5f; // Speed at which the object will move
-    //private Dots dots;
+    private ScoreManager scoreManager;
+    public float moveDirection;
     [SerializeField] private Color newColor;
     [SerializeField] private GameObject trigger; // Placeholder for future use if needed
 
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        scoreManager = FindObjectOfType<ScoreManager>();
         //dots = FindObjectOfType<Dots>();
         StartCoroutine(ChangeColorCo());
         //CheckColor();
@@ -22,13 +24,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         // Check for user input
-        float moveDirection = Input.GetAxis("Horizontal");
+        moveDirection = Input.GetAxis("Horizontal");
 
         // Calculate new position
         Vector3 newPosition = transform.position + new Vector3(moveDirection, 0, 0) * moveSpeed * Time.deltaTime;
 
         // Apply the new position to the object
         transform.position = newPosition;
+
+        moveDirection = 0f;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -44,10 +48,12 @@ public class Player : MonoBehaviour
         {
 
             Destroy(other.gameObject);
-            //Debug.Log("Same object you find");
+            scoreManager.currentScore++;
+            //Debug.Log(scoreManager.currentScoreText);
         }
         else
         {
+
             Debug.Log("lose");
         }
     }
@@ -85,5 +91,15 @@ public class Player : MonoBehaviour
     public string ColorToHex(Color color)
     {
         return $"#{ColorUtility.ToHtmlStringRGB(color)}";
+    }
+
+    public void RightButton()
+    {
+        moveDirection = 1f;
+    }
+
+    public void LeftButton()
+    {
+        moveDirection = 1f;
     }
 }
