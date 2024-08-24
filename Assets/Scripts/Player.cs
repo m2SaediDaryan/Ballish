@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     public float moveSpeed = 5f; // Speed at which the object will move
     private ScoreManager scoreManager;
+    private PanelManager panelManager;
     public float moveDirection;
     [SerializeField] private Color newColor;
     [SerializeField] private GameObject trigger; // Placeholder for future use if needed
@@ -13,12 +14,31 @@ public class Player : MonoBehaviour
     private string[] colorPalettePlayer = { "#FDFFFC", "#FF0022", "#41EAD4", "#2E86AB" };
     [SerializeField] private Color colorOfPlayer;
 
+    //mainscale(0.24f, 0.423f, 0.423f)
+    public Vector3 mainScale = new Vector3(0.24f, 0.423f, 0.423f);
+    public Vector3[] targetScale = new Vector3[]
+    {
+        new Vector3(0.34f, 0.6f, 0.423f),
+        new Vector3(0.17f, 0.59f, 0.423f),
+        new Vector3(0.24f, 0.95f, 0.423f),
+        new Vector3(0.32f, 0.423f, 0.423f)
+    };
+
+    private int lastScaleIndex;
+    //public Vector3 targetScale2 = new Vector3(0.17f, 0.59f, 0.423f);
+    //public Vector3 targetScale3 = new Vector3(0.24f, 0.95f, 0.423f);
+    //public Vector3 targetScale4 = new Vector3(0.32f, 0.423f, 0.423f); // The scale you want to reach
+    public float duration = 2.0f;
+
     void Start()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
+        panelManager = FindObjectOfType<PanelManager>();
         //dots = FindObjectOfType<Dots>();
         StartCoroutine(ChangeColorCo());
         //CheckColor();
+        //StartCoroutine(ScaleCoroutine(targetScale, duration));
+        //CheckStatemant();        
     }
 
     void Update()
@@ -33,6 +53,24 @@ public class Player : MonoBehaviour
         transform.position = newPosition;
 
         moveDirection = 0f;
+
+        if (scoreManager.currentScore > 5 && scoreManager.currentScore < 7)
+        {
+            if (targetScale.Length > 0)
+            {
+                int randomIndex = Random.Range(0, targetScale.Length);
+                lastScaleIndex = randomIndex;
+                StartCoroutine(ScaleCoroutine(targetScale[randomIndex], duration));
+            }
+            else
+            {
+                Debug.LogError("targetScale array is empty.");
+            }
+        }
+        else if (scoreManager.currentScore > 10 && scoreManager.currentScore < 12)
+        {
+            StartCoroutine(ScaleBackToMain(mainScale, duration));
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -53,11 +91,15 @@ public class Player : MonoBehaviour
         }
         else
         {
-
-            Debug.Log("lose");
+            scoreManager.gameState = GameState.Lose;
+            panelManager.Lose();
+            //Debug.Log("lose");
         }
     }
-
+    public void Buttons()
+    {
+        moveDirection = 1f;
+    }
     void ChangeColor()
     {
         int randomIndex = Random.Range(0, colorPalettePlayer.Length);
@@ -93,13 +135,50 @@ public class Player : MonoBehaviour
         return $"#{ColorUtility.ToHtmlStringRGB(color)}";
     }
 
-    public void RightButton()
+    /*IEnumerator ChangeScale()
     {
-        moveDirection = 1f;
+        //transform.localScale = newScale;
+        yield return new WaitForSeconds(5f);
+    }*/
+
+    IEnumerator ScaleCoroutine(Vector3 targetScale, float duration)
+    {
+        //if (scoreManager.currentScore > 5)
+
+        Vector3 initialScale = transform.localScale;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait until the next frame
+        }
+
+        transform.localScale = targetScale; // Ensure the target scale is set at the end
+
+
     }
 
-    public void LeftButton()
+    IEnumerator ScaleBackToMain(Vector3 mainScale, float duration)
     {
-        moveDirection = 1f;
+        Vector3 initialScale = transform.localScale;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            transform.localScale = Vector3.Lerp(initialScale, mainScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait until the next frame
+        }
+
+        transform.localScale = mainScale;
+        lastScaleIndex = -1;
     }
+
+    public void CheckStatemant()
+    {
+
+    }
+
 }
