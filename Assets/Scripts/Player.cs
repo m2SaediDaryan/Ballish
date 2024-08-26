@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     public float moveSpeed = 5f; // Speed at which the object will move
     private ScoreManager scoreManager;
     private PanelManager panelManager;
+    private GameManager gameManager;
     public float moveDirection;
     [SerializeField] private Color newColor;
     [SerializeField] private GameObject trigger; // Placeholder for future use if needed
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
         new Vector3(0.32f, 0.423f, 0.423f)
     };
 
-    private int lastScaleIndex;
+    //private int lastScaleIndex;
     //public Vector3 targetScale2 = new Vector3(0.17f, 0.59f, 0.423f);
     //public Vector3 targetScale3 = new Vector3(0.24f, 0.95f, 0.423f);
     //public Vector3 targetScale4 = new Vector3(0.32f, 0.423f, 0.423f); // The scale you want to reach
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        scoreManager = FindObjectOfType<ScoreManager>();
+        gameManager = FindObjectOfType<GameManager>();
         panelManager = FindObjectOfType<PanelManager>();
         //dots = FindObjectOfType<Dots>();
         StartCoroutine(ChangeColorCo());
@@ -54,7 +55,7 @@ public class Player : MonoBehaviour
 
         moveDirection = 0f;
 
-        if (scoreManager.currentScore > 5 && scoreManager.currentScore < 7)
+        /*if (gameManager.currentScore > 5 && gameManager.currentScore < 7)
         {
             if (targetScale.Length > 0)
             {
@@ -67,10 +68,10 @@ public class Player : MonoBehaviour
                 Debug.LogError("targetScale array is empty.");
             }
         }
-        else if (scoreManager.currentScore > 10 && scoreManager.currentScore < 12)
+        else if (gameManager.currentScore > 10 && gameManager.currentScore < 12)
         {
             StartCoroutine(ScaleBackToMain(mainScale, duration));
-        }
+        }*/
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -82,17 +83,18 @@ public class Player : MonoBehaviour
             // Debug.Log("Triggered");
         }*/
 
-        if (ColorToHex(colorOfPlayer) == other.tag)
+        if (ColorToHex(colorOfPlayer) == other.tag && gameManager.state == GameState.Play)
         {
 
             Destroy(other.gameObject);
-            scoreManager.currentScore++;
+            gameManager.currentScore++;
             //Debug.Log(scoreManager.currentScoreText);
         }
         else
         {
-            scoreManager.gameState = GameState.Lose;
-            panelManager.Lose();
+            gameManager.UpdateGameState(GameState.Lose);
+            //gameManager.gameState = GameState.Lose;
+            //panelManager.Lose();
             //Debug.Log("lose");
         }
     }
@@ -173,7 +175,7 @@ public class Player : MonoBehaviour
         }
 
         transform.localScale = mainScale;
-        lastScaleIndex = -1;
+        //lastScaleIndex = -1;
     }
 
     public void CheckStatemant()

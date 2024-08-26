@@ -5,6 +5,7 @@ using UnityEngine;
 public class PanelManager : MonoBehaviour
 {
     private ScoreManager scoreManager;
+    private GameManager gameManager;
     public GameObject startPanel;
     public GameObject replayPanel;
     public GameObject gamePanel;
@@ -12,7 +13,8 @@ public class PanelManager : MonoBehaviour
     void Awake()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
-        startPanel.SetActive(true);
+        gameManager = FindObjectOfType<GameManager>();
+        //startPanel.SetActive(true);
         //replayPanel.SetActive(false);
     }
 
@@ -22,20 +24,20 @@ public class PanelManager : MonoBehaviour
         gamePanel.SetActive(true);
     }
 
-    public void Lose()
+    /*public void Lose()
     {
         gamePanel.SetActive(false);
         replayPanel.SetActive(true);
-    }
+    }*/
 
     public void ReplayButton()
     {
-        if (scoreManager.gameState == GameState.Lose)
+        if (gameManager.state == GameState.Lose)
         {
             gamePanel.SetActive(true);
             replayPanel.SetActive(false);
-            scoreManager.currentScore = 0;
-            scoreManager.gameState = GameState.Play;
+            gameManager.currentScore = 0;
+            gameManager.state = GameState.Play;
         }
     }
 }

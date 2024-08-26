@@ -1,16 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum GameState
+/*public enum GameState
 {
     Start,
     Play,
     Pause,
     Lose
-}
+}*/
 public class ScoreManager : MonoBehaviour
 {
-    public int currentScore = 0;
+    /*public int currentScore = 0;
     public int highScore;
     [SerializeField]
     public Text currentScoreText_GP;
@@ -41,5 +41,5 @@ public class ScoreManager : MonoBehaviour
             highScoreText_RP.text = highScore.ToString();
             PlayerPrefs.SetInt("HighScore", highScore);
         }
-    }
+    }*/
 }
