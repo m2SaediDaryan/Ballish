@@ -4,8 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float moveSpeed = 5f; // Speed at which the object will move
-    private ScoreManager scoreManager;
-    private PanelManager panelManager;
+    //private PanelManager panelManager;
     private GameManager gameManager;
     public float moveDirection;
     [SerializeField] private Color newColor;
@@ -34,7 +33,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        panelManager = FindObjectOfType<PanelManager>();
+        //panelManager = FindObjectOfType<PanelManager>();
         //dots = FindObjectOfType<Dots>();
         StartCoroutine(ChangeColorCo());
         //CheckColor();
@@ -90,12 +89,16 @@ public class Player : MonoBehaviour
             gameManager.currentScore++;
             //Debug.Log(scoreManager.currentScoreText);
         }
-        else
+        else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play)
         {
             gameManager.UpdateGameState(GameState.Lose);
             //gameManager.gameState = GameState.Lose;
             //panelManager.Lose();
             //Debug.Log("lose");
+        }
+        else
+        {
+            Debug.Log("gcytghbk");
         }
     }
     public void Buttons()
@@ -178,9 +181,5 @@ public class Player : MonoBehaviour
         //lastScaleIndex = -1;
     }
 
-    public void CheckStatemant()
-    {
-
-    }
 
 }
