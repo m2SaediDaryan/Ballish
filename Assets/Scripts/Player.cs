@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 5f; // Speed at which the object will move
-    //private PanelManager panelManager;
+    public bool right;
+    public bool left;
     private GameManager gameManager;
     public float moveDirection;
     [SerializeField] private Color newColor;
@@ -14,14 +14,17 @@ public class Player : MonoBehaviour
     private string[] colorPalettePlayer = { "#FDFFFC", "#FF0022", "#41EAD4", "#2E86AB" };
     [SerializeField] private Color colorOfPlayer;
 
+    //mainPosition(0,-3.1960001,0)
+    public Vector2 mainPosition = new Vector3(0, -3.196f);
+
     //mainscale(0.24f, 0.423f, 0.423f)
-    public Vector3 mainScale = new Vector3(0.24f, 0.423f, 0.423f);
-    public Vector3[] targetScale = new Vector3[]
+    public Vector2 mainScale = new Vector3(0.24f, 0.423f);
+    public Vector2[] targetScale = new Vector2[]
     {
-        new Vector3(0.34f, 0.6f, 0.423f),
-        new Vector3(0.17f, 0.59f, 0.423f),
-        new Vector3(0.24f, 0.95f, 0.423f),
-        new Vector3(0.32f, 0.423f, 0.423f)
+        new Vector2(0.34f, 0.6f),
+        new Vector2(0.17f, 0.59f),
+        new Vector2(0.24f, 0.95f),
+        new Vector2(0.32f, 0.423f)
     };
 
     //private int lastScaleIndex;
@@ -33,8 +36,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        //panelManager = FindObjectOfType<PanelManager>();
-        //dots = FindObjectOfType<Dots>();
         StartCoroutine(ChangeColorCo());
         //CheckColor();
         //StartCoroutine(ScaleCoroutine(targetScale, duration));
@@ -43,16 +44,45 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // Check for user input
-        moveDirection = Input.GetAxis("Horizontal");
 
-        // Calculate new position
+        /* Calculate new position
         Vector3 newPosition = transform.position + new Vector3(moveDirection, 0, 0) * moveSpeed * Time.deltaTime;
 
         // Apply the new position to the object
         transform.position = newPosition;
 
         moveDirection = 0f;
+        if (gameManager != null && gameManager.state == GameState.Lose)
+        {
+            if (playerMovment != null)
+            {
+                playerMovment.isPressed = false;
+            }
+        }
+        else
+        {
+            //Debug.LogWarning("GameManager or PlayerMovement is not assigned.");
+        }*/
+
+        if (right && !left)
+        {
+            moveDirection = 4.5f;
+            transform.Translate(moveDirection * Time.deltaTime, 0, 0);
+        }
+        else if (left && !right)
+        {
+            moveDirection = -4.5f;
+            transform.Translate(moveDirection * Time.deltaTime, 0, 0);
+        }
+        else if (gameManager.state == GameState.Lose)
+        {
+            
+        }
+        else
+        {
+            Right_U();
+            Left_U();
+        }
 
         /*if (gameManager.currentScore > 5 && gameManager.currentScore < 7)
         {
@@ -71,6 +101,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(ScaleBackToMain(mainScale, duration));
         }*/
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -87,24 +118,17 @@ public class Player : MonoBehaviour
 
             Destroy(other.gameObject);
             gameManager.currentScore++;
-            //Debug.Log(scoreManager.currentScoreText);
+            //Debug.Log(gameManager.currentScoreText_GP);
         }
         else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play)
         {
+            Right_U();
+            Left_U();
             gameManager.UpdateGameState(GameState.Lose);
-            //gameManager.gameState = GameState.Lose;
-            //panelManager.Lose();
             //Debug.Log("lose");
         }
-        else
-        {
-            Debug.Log("gcytghbk");
-        }
     }
-    public void Buttons()
-    {
-        moveDirection = 1f;
-    }
+
     void ChangeColor()
     {
         int randomIndex = Random.Range(0, colorPalettePlayer.Length);
@@ -181,5 +205,24 @@ public class Player : MonoBehaviour
         //lastScaleIndex = -1;
     }
 
+    public void Right_D()
+    {
+        right = true;
+    }
+
+    public void Left_D()
+    {
+        left = true;
+    }
+
+    public void Right_U()
+    {
+        right = false;
+    }
+
+    public void Left_U()
+    {
+        left = false;
+    }
 
 }
