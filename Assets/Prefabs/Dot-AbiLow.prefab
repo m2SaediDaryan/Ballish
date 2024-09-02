@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1650701620586763163}
   - component: {fileID: 7432553477725580306}
   - component: {fileID: 8520787616345666736}
+  - component: {fileID: 975132025315263426}
   m_Layer: 0
   m_Name: Dot-AbiLow
   m_TagString: '#41EAD4'
@@ -72,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1853837681
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 341ee45eae078154b9da07e2342a7a4f, type: 3}
   m_Color: {r: 0.25490198, g: 0.91764706, b: 0.83137256, a: 1}
   m_FlipX: 0
@@ -123,3 +124,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.56
+--- !u!210 &975132025315263426
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3557923233932627420}
+  m_Enabled: 1
+  m_SortingLayerID: -1853837681
+  m_SortingLayer: 1
+  m_SortingOrder: 5
+  m_SortAtRoot: 0

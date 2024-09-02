@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private Animator loseAnim;
     public bool right;
     public bool left;
     private GameManager gameManager;
@@ -15,7 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Color colorOfPlayer;
 
     //mainPosition(0,-3.1960001,0)
-    public Vector2 mainPosition = new Vector3(0, -3.196f);
+    public Vector2 mainPosition;// = new Vector3(0, -3.196f);
 
     //mainscale(0.24f, 0.423f, 0.423f)
     public Vector2 mainScale = new Vector3(0.24f, 0.423f);
@@ -35,7 +36,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        mainPosition = transform.position;
         gameManager = FindObjectOfType<GameManager>();
+        loseAnim = GetComponent<Animator>();
         StartCoroutine(ChangeColorCo());
         //CheckColor();
         //StartCoroutine(ScaleCoroutine(targetScale, duration));
@@ -76,13 +79,16 @@ public class Player : MonoBehaviour
         }
         else if (gameManager.state == GameState.Lose)
         {
-            
+            ResetPlayerPosition();
+            return;
         }
         else
         {
             Right_U();
             Left_U();
         }
+
+        //transform.Translate(moveDirection * Time.deltaTime, 0, 0);
 
         /*if (gameManager.currentScore > 5 && gameManager.currentScore < 7)
         {
@@ -104,6 +110,13 @@ public class Player : MonoBehaviour
 
     }
 
+    void ResetPlayerPosition()
+    {
+        Right_U();
+        Left_U();
+        StartCoroutine(SmoothResetPosition(mainPosition, 1.0f)); // Adjust duration as needed
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         //string tag = other.tag;
@@ -122,8 +135,11 @@ public class Player : MonoBehaviour
         }
         else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play)
         {
-            Right_U();
-            Left_U();
+            //Right_U();
+            //Left_U();
+            ResetPlayerPosition();
+            ChangeColorToWhite();
+            loseAnim.SetBool("lose", true);
             gameManager.UpdateGameState(GameState.Lose);
             //Debug.Log("lose");
         }
@@ -139,6 +155,26 @@ public class Player : MonoBehaviour
             Renderer renderer = GetComponent<Renderer>();
             if (renderer != null)
             {
+                renderer.material.color = newColor;
+                colorOfPlayer = newColor;
+            }
+        }
+        else
+        {
+            Debug.LogError("Invalid Hex color code: " + selectedHexColor);
+        }
+    }
+
+    void ChangeColorToWhite()
+    {
+        string selectedHexColor = "#FDFFFC";
+
+        if (ColorUtility.TryParseHtmlString(selectedHexColor, out newColor))
+        {
+            Renderer renderer = GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                Debug.Log("salam");
                 renderer.material.color = newColor;
                 colorOfPlayer = newColor;
             }
@@ -203,6 +239,21 @@ public class Player : MonoBehaviour
 
         transform.localScale = mainScale;
         //lastScaleIndex = -1;
+    }
+
+    IEnumerator SmoothResetPosition(Vector3 targetPosition, float duration)
+    {
+        Vector3 initialPosition = transform.position;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait until the next frame
+        }
+
+        transform.position = targetPosition;
     }
 
     public void Right_D()
