@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int currentScore = 0;
     private PanelManager panelManager;
+    private Player player;
     public int highScore;
     [SerializeField]
     public Text currentScoreText_GP;
@@ -25,14 +26,15 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        player = FindObjectOfType<Player>();
         panelManager = FindObjectOfType<PanelManager>();
     }
     void Start()
     {
         UpdateGameState(GameState.Start);
         highScore = PlayerPrefs.GetInt("HighScore", 0);
-        highScoreText_SP.text = "High Score :" + highScore.ToString();
-        highScoreText_RP.text = "High Score :" + highScore.ToString();
+        highScoreText_SP.text = "High Score : " + highScore.ToString();
+        highScoreText_RP.text = "High Score : " + highScore.ToString();
     }
 
     void Update()
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
                 //Debug.Log("lose");
                 panelManager.gamePanel.SetActive(false);
                 panelManager.replayPanel.SetActive(true);
-
+                //player.loseAnim.SetBool("lose",false);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Animator loseAnim;
+    public Animator loseAnim;
     public bool right;
     public bool left;
     private GameManager gameManager;
@@ -128,7 +128,7 @@ public class Player : MonoBehaviour
 
         if (ColorToHex(colorOfPlayer) == other.tag && gameManager.state == GameState.Play)
         {
-
+            Handheld.Vibrate();
             Destroy(other.gameObject);
             gameManager.currentScore++;
             //Debug.Log(gameManager.currentScoreText_GP);
@@ -274,6 +274,14 @@ public class Player : MonoBehaviour
     public void Left_U()
     {
         left = false;
+    }
+
+    public void LoseAnimEnd(int intAnim)
+    {
+        if (intAnim == 1)
+        {
+            loseAnim.SetBool("lose", false);
+        }
     }
 
 }
