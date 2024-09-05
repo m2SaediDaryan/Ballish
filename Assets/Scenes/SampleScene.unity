@@ -508,7 +508,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0289d40597f0a274eb1ed58c0a0e9f80, type: 3}
+    m_Font: {fileID: 12800000, guid: 8859eb90129e1d44fad9a391f5b22f8f, type: 3}
     m_FontSize: 120
     m_FontStyle: 0
     m_BestFit: 1
@@ -579,6 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScore: 0
+  allowToChangeColor: 0
   highScore: 0
   currentScoreText_GP: {fileID: 62732632}
   currentScoreText_RP: {fileID: 1679024745}
@@ -739,12 +740,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0289d40597f0a274eb1ed58c0a0e9f80, type: 3}
-    m_FontSize: 95
+    m_Font: {fileID: 12800000, guid: 8859eb90129e1d44fad9a391f5b22f8f, type: 3}
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 95
+    m_MaxSize: 80
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -819,12 +820,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0289d40597f0a274eb1ed58c0a0e9f80, type: 3}
-    m_FontSize: 90
+    m_Font: {fileID: 12800000, guid: 8859eb90129e1d44fad9a391f5b22f8f, type: 3}
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 90
+    m_MaxSize: 80
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1570,6 +1571,7 @@ MonoBehaviour:
   right: 0
   left: 0
   moveDirection: 0
+  nowCanReplay: 0
   newColor: {r: 0, g: 0, b: 0, a: 0}
   trigger: {fileID: 912314171}
   colorOfPlayer: {r: 0, g: 0, b: 0, a: 0}
@@ -2536,7 +2538,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0289d40597f0a274eb1ed58c0a0e9f80, type: 3}
+    m_Font: {fileID: 12800000, guid: 8859eb90129e1d44fad9a391f5b22f8f, type: 3}
     m_FontSize: 120
     m_FontStyle: 0
     m_BestFit: 1

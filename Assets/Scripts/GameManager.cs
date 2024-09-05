@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int currentScore = 0;
+    public bool allowToChangeColor;
     private PanelManager panelManager;
     private Player player;
     public int highScore;
@@ -59,15 +60,18 @@ public class GameManager : MonoBehaviour
             case GameState.Start:
                 currentScore = 0;
                 panelManager.startPanel.SetActive(true);
+                allowToChangeColor=false;
                 //state = GameState.Play;
                 break;
             case GameState.Play:
+                allowToChangeColor=true;
                 //playerMovment.isPressed = false;
                 break;
             case GameState.Pause:
                 break;
             case GameState.Lose:
                 //Debug.Log("lose");
+                allowToChangeColor=false;
                 panelManager.gamePanel.SetActive(false);
                 panelManager.replayPanel.SetActive(true);
                 //player.loseAnim.SetBool("lose",false);

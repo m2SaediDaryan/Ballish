@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public bool left;
     private GameManager gameManager;
     public float moveDirection;
+    public int nowCanReplay;
     [SerializeField] private Color newColor;
     [SerializeField] private GameObject trigger; // Placeholder for future use if needed
 
@@ -128,7 +129,6 @@ public class Player : MonoBehaviour
 
         if (ColorToHex(colorOfPlayer) == other.tag && gameManager.state == GameState.Play)
         {
-            Handheld.Vibrate();
             Destroy(other.gameObject);
             gameManager.currentScore++;
             //Debug.Log(gameManager.currentScoreText_GP);
@@ -137,6 +137,7 @@ public class Player : MonoBehaviour
         {
             //Right_U();
             //Left_U();
+            Handheld.Vibrate();
             ResetPlayerPosition();
             ChangeColorToWhite();
             loseAnim.SetBool("lose", true);
@@ -147,21 +148,24 @@ public class Player : MonoBehaviour
 
     void ChangeColor()
     {
-        int randomIndex = Random.Range(0, colorPalettePlayer.Length);
-        string selectedHexColor = colorPalettePlayer[randomIndex];
+        if (gameManager.allowToChangeColor == true)
+        {
+            int randomIndex = Random.Range(0, colorPalettePlayer.Length);
+            string selectedHexColor = colorPalettePlayer[randomIndex];
 
-        if (ColorUtility.TryParseHtmlString(selectedHexColor, out newColor))
-        {
-            Renderer renderer = GetComponent<Renderer>();
-            if (renderer != null)
+            if (ColorUtility.TryParseHtmlString(selectedHexColor, out newColor))
             {
-                renderer.material.color = newColor;
-                colorOfPlayer = newColor;
+                Renderer renderer = GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material.color = newColor;
+                    colorOfPlayer = newColor;
+                }
             }
-        }
-        else
-        {
-            Debug.LogError("Invalid Hex color code: " + selectedHexColor);
+            else
+            {
+                Debug.LogError("Invalid Hex color code: " + selectedHexColor);
+            }
         }
     }
 
@@ -174,7 +178,6 @@ public class Player : MonoBehaviour
             Renderer renderer = GetComponent<Renderer>();
             if (renderer != null)
             {
-                Debug.Log("salam");
                 renderer.material.color = newColor;
                 colorOfPlayer = newColor;
             }
@@ -281,6 +284,14 @@ public class Player : MonoBehaviour
         if (intAnim == 1)
         {
             loseAnim.SetBool("lose", false);
+        }
+    }
+
+    public void NewPlayerAnimEnd(int intAnim)
+    {
+        if (intAnim == 1)
+        {
+            nowCanReplay = 2;
         }
     }
 
