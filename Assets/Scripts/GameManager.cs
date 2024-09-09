@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Play:
                 allowToChangeColor=true;
+                player.ChangeColorToWhite();
                 //playerMovment.isPressed = false;
                 break;
             case GameState.Pause:

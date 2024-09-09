@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
             //Debug.LogWarning("GameManager or PlayerMovement is not assigned.");
         }*/
 
-        if (right && !left)
+        /*if (right && !left)
         {
             moveDirection = 4.5f;
             transform.Translate(moveDirection * Time.deltaTime, 0, 0);
@@ -87,7 +87,23 @@ public class Player : MonoBehaviour
         {
             Right_U();
             Left_U();
+        }*/
+
+
+        //this mode maked game esay
+        if (Input.GetMouseButton(0)) // Check for touch or mouse click
+        {
+            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            touchPosition.z = 0f; // Keep it on the same z-plane
+            transform.position = new Vector3(touchPosition.x, transform.position.y, transform.position.z);
         }
+
+        // Ensure the player stays within screen bounds
+        float screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -screenWidth, screenWidth), transform.position.y, transform.position.z);
+
+        /*float h = Input.acceleration.x;
+        transform.Translate(h * 5 *  Time.deltaTime, 0, 0);*/
 
         //transform.Translate(moveDirection * Time.deltaTime, 0, 0);
 
@@ -150,26 +166,47 @@ public class Player : MonoBehaviour
     {
         if (gameManager.allowToChangeColor == true)
         {
-            int randomIndex = Random.Range(0, colorPalettePlayer.Length);
-            string selectedHexColor = colorPalettePlayer[randomIndex];
-
-            if (ColorUtility.TryParseHtmlString(selectedHexColor, out newColor))
+            if (gameManager.currentScore < 1)
             {
-                Renderer renderer = GetComponent<Renderer>();
-                if (renderer != null)
+                string selectedHexColor = "#FDFFFC";
+
+                if (ColorUtility.TryParseHtmlString(selectedHexColor, out newColor))
                 {
-                    renderer.material.color = newColor;
-                    colorOfPlayer = newColor;
+                    Renderer renderer = GetComponent<Renderer>();
+                    if (renderer != null)
+                    {
+                        renderer.material.color = newColor;
+                        colorOfPlayer = newColor;
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Invalid Hex color code: " + selectedHexColor);
                 }
             }
             else
             {
-                Debug.LogError("Invalid Hex color code: " + selectedHexColor);
+                int randomIndex = Random.Range(0, colorPalettePlayer.Length);
+                string selectedHexColor = colorPalettePlayer[randomIndex];
+
+                if (ColorUtility.TryParseHtmlString(selectedHexColor, out newColor))
+                {
+                    Renderer renderer = GetComponent<Renderer>();
+                    if (renderer != null)
+                    {
+                        renderer.material.color = newColor;
+                        colorOfPlayer = newColor;
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Invalid Hex color code: " + selectedHexColor);
+                }
             }
         }
     }
 
-    void ChangeColorToWhite()
+    public void ChangeColorToWhite()
     {
         string selectedHexColor = "#FDFFFC";
 
