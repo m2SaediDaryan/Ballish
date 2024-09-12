@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool allowToChangeColor;
     private PanelManager panelManager;
     private Player player;
+    private PlayerMovement playerMovement;
     public int highScore;
     [SerializeField]
     public Text currentScoreText_GP;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         player = FindObjectOfType<Player>();
+        playerMovement =FindObjectOfType<PlayerMovement>();
         panelManager = FindObjectOfType<PanelManager>();
     }
     void Start()
@@ -58,6 +60,8 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Start:
+                //playerMovement.Right_U();
+                //playerMovement.Left_U();
                 currentScore = 0;
                 panelManager.startPanel.SetActive(true);
                 allowToChangeColor=false;
@@ -72,7 +76,11 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Lose:
                 //Debug.Log("lose");
+                Handheld.Vibrate();
+                playerMovement.right=false;
+                playerMovement.left = false;
                 allowToChangeColor=false;
+                //playerMovement.ResetPlayerPosition();
                 panelManager.gamePanel.SetActive(false);
                 panelManager.replayPanel.SetActive(true);
                 //player.loseAnim.SetBool("lose",false);

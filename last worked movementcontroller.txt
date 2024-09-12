@@ -1,0 +1,129 @@
+//this used for acceleration 
+        /*if (gameManager.state == GameState.Play)
+        {
+            float h = Input.acceleration.x;
+            transform.Translate(h * 5 * Time.deltaTime, 0, 0);
+        }
+        if (gameManager.state == GameState.Lose)
+        {
+            ResetPlayerPosition();
+            return;
+        }*/
+		
+		
+		
+		
+		
+		//this used for two button
+        /*if (right && !left && gameManager.state == GameState.Play)
+        {
+            moveDirection = 4.5f;
+            transform.Translate(moveDirection * Time.deltaTime, 0, 0);
+        }
+        else if (left && !right && gameManager.state == GameState.Play)
+        {
+            moveDirection = -4.5f;
+            transform.Translate(moveDirection * Time.deltaTime, 0, 0);
+        }
+        else if (gameManager.state == GameState.Lose)
+        {
+            ResetPlayerPosition();
+            return;
+        }
+        else if(gameManager.state==GameState.Start)
+        {
+            Debug.Log("Salam");
+            /*Right_U();
+            Left_U();*/
+        //right =false;
+        //eft = false;}*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		void Update()
+    {
+
+        /* Calculate new position
+        Vector3 newPosition = transform.position + new Vector3(moveDirection, 0, 0) * moveSpeed * Time.deltaTime;
+
+        // Apply the new position to the object
+        transform.position = newPosition;
+
+        moveDirection = 0f;
+        if (gameManager != null && gameManager.state == GameState.Lose)
+        {
+            if (playerMovment != null)
+            {
+                playerMovment.isPressed = false;
+            }
+        }
+        else
+        {
+            //Debug.LogWarning("GameManager or PlayerMovement is not assigned.");
+        }*/
+
+        /*if (right && !left)
+        {
+            moveDirection = 4.5f;
+            transform.Translate(moveDirection * Time.deltaTime, 0, 0);
+        }
+        else if (left && !right)
+        {
+            moveDirection = -4.5f;
+            transform.Translate(moveDirection * Time.deltaTime, 0, 0);
+        }
+        else if (gameManager.state == GameState.Lose)
+        {
+            ResetPlayerPosition();
+            return;
+        }
+        else
+        {
+            Right_U();
+            Left_U();
+        }*/
+
+
+        //this mode maked game esay
+        /*if (Input.GetMouseButton(0)) // Check for touch or mouse click
+        {
+            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            touchPosition.z = 0f; // Keep it on the same z-plane
+            transform.position = new Vector3(touchPosition.x, transform.position.y, transform.position.z);
+        }
+
+        // Ensure the player stays within screen bounds
+        float screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -screenWidth, screenWidth), transform.position.y, transform.position.z);*/
+
+        /*float h = Input.acceleration.x;
+        transform.Translate(h * 5 *  Time.deltaTime, 0, 0);*/
+
+        //transform.Translate(moveDirection * Time.deltaTime, 0, 0);
+
+        /*if (gameManager.currentScore > 5 && gameManager.currentScore < 7)
+        {
+            if (targetScale.Length > 0)
+            {
+                int randomIndex = Random.Range(0, targetScale.Length);
+                lastScaleIndex = randomIndex;
+                StartCoroutine(ScaleCoroutine(targetScale[randomIndex], duration));
+            }
+            else
+            {
+                Debug.LogError("targetScale array is empty.");
+            }
+        }
+        else if (gameManager.currentScore > 10 && gameManager.currentScore < 12)
+        {
+            StartCoroutine(ScaleBackToMain(mainScale, duration));
+        }*/
+
+    }

@@ -4,10 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Animator loseAnim;
-    public bool right;
-    public bool left;
     private GameManager gameManager;
-    public float moveDirection;
     public int nowCanReplay;
     [SerializeField] private Color newColor;
     [SerializeField] private GameObject trigger; // Placeholder for future use if needed
@@ -15,10 +12,7 @@ public class Player : MonoBehaviour
     [Header("Colors")]
     private string[] colorPalettePlayer = { "#FDFFFC", "#FF0022", "#41EAD4", "#2E86AB" };
     [SerializeField] private Color colorOfPlayer;
-
-    //mainPosition(0,-3.1960001,0)
-    public Vector2 mainPosition;// = new Vector3(0, -3.196f);
-
+    
     //mainscale(0.24f, 0.423f, 0.423f)
     public Vector2 mainScale = new Vector3(0.24f, 0.423f);
     public Vector2[] targetScale = new Vector2[]
@@ -37,101 +31,12 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        mainPosition = transform.position;
         gameManager = FindObjectOfType<GameManager>();
         loseAnim = GetComponent<Animator>();
         StartCoroutine(ChangeColorCo());
         //CheckColor();
         //StartCoroutine(ScaleCoroutine(targetScale, duration));
         //CheckStatemant();        
-    }
-
-    void Update()
-    {
-
-        /* Calculate new position
-        Vector3 newPosition = transform.position + new Vector3(moveDirection, 0, 0) * moveSpeed * Time.deltaTime;
-
-        // Apply the new position to the object
-        transform.position = newPosition;
-
-        moveDirection = 0f;
-        if (gameManager != null && gameManager.state == GameState.Lose)
-        {
-            if (playerMovment != null)
-            {
-                playerMovment.isPressed = false;
-            }
-        }
-        else
-        {
-            //Debug.LogWarning("GameManager or PlayerMovement is not assigned.");
-        }*/
-
-        /*if (right && !left)
-        {
-            moveDirection = 4.5f;
-            transform.Translate(moveDirection * Time.deltaTime, 0, 0);
-        }
-        else if (left && !right)
-        {
-            moveDirection = -4.5f;
-            transform.Translate(moveDirection * Time.deltaTime, 0, 0);
-        }
-        else if (gameManager.state == GameState.Lose)
-        {
-            ResetPlayerPosition();
-            return;
-        }
-        else
-        {
-            Right_U();
-            Left_U();
-        }*/
-
-
-        //this mode maked game esay
-        if (Input.GetMouseButton(0)) // Check for touch or mouse click
-        {
-            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            touchPosition.z = 0f; // Keep it on the same z-plane
-            transform.position = new Vector3(touchPosition.x, transform.position.y, transform.position.z);
-        }
-
-        // Ensure the player stays within screen bounds
-        float screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -screenWidth, screenWidth), transform.position.y, transform.position.z);
-
-        /*float h = Input.acceleration.x;
-        transform.Translate(h * 5 *  Time.deltaTime, 0, 0);*/
-
-        //transform.Translate(moveDirection * Time.deltaTime, 0, 0);
-
-        /*if (gameManager.currentScore > 5 && gameManager.currentScore < 7)
-        {
-            if (targetScale.Length > 0)
-            {
-                int randomIndex = Random.Range(0, targetScale.Length);
-                lastScaleIndex = randomIndex;
-                StartCoroutine(ScaleCoroutine(targetScale[randomIndex], duration));
-            }
-            else
-            {
-                Debug.LogError("targetScale array is empty.");
-            }
-        }
-        else if (gameManager.currentScore > 10 && gameManager.currentScore < 12)
-        {
-            StartCoroutine(ScaleBackToMain(mainScale, duration));
-        }*/
-
-    }
-
-    void ResetPlayerPosition()
-    {
-        Right_U();
-        Left_U();
-        StartCoroutine(SmoothResetPosition(mainPosition, 1.0f)); // Adjust duration as needed
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -151,13 +56,10 @@ public class Player : MonoBehaviour
         }
         else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play)
         {
-            //Right_U();
-            //Left_U();
-            Handheld.Vibrate();
-            ResetPlayerPosition();
+            gameManager.UpdateGameState(GameState.Lose);
             ChangeColorToWhite();
             loseAnim.SetBool("lose", true);
-            gameManager.UpdateGameState(GameState.Lose);
+            
             //Debug.Log("lose");
         }
     }
@@ -281,41 +183,6 @@ public class Player : MonoBehaviour
         //lastScaleIndex = -1;
     }
 
-    IEnumerator SmoothResetPosition(Vector3 targetPosition, float duration)
-    {
-        Vector3 initialPosition = transform.position;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null; // Wait until the next frame
-        }
-
-        transform.position = targetPosition;
-    }
-
-    public void Right_D()
-    {
-        right = true;
-    }
-
-    public void Left_D()
-    {
-        left = true;
-    }
-
-    public void Right_U()
-    {
-        right = false;
-    }
-
-    public void Left_U()
-    {
-        left = false;
-    }
-
     public void LoseAnimEnd(int intAnim)
     {
         if (intAnim == 1)
@@ -331,5 +198,4 @@ public class Player : MonoBehaviour
             nowCanReplay = 2;
         }
     }
-
 }
