@@ -7,12 +7,11 @@ public class Player : MonoBehaviour
     private GameManager gameManager;
     public int nowCanReplay;
     [SerializeField] private Color newColor;
-    [SerializeField] private GameObject trigger; // Placeholder for future use if needed
-
+    
     [Header("Colors")]
     private string[] colorPalettePlayer = { "#FDFFFC", "#FF0022", "#41EAD4", "#2E86AB" };
     [SerializeField] private Color colorOfPlayer;
-    
+
     //mainscale(0.24f, 0.423f, 0.423f)
     public Vector2 mainScale = new Vector3(0.24f, 0.423f);
     public Vector2[] targetScale = new Vector2[]

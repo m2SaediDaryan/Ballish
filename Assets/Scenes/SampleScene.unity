@@ -372,7 +372,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 50517933}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2096161186}
+        m_TargetAssemblyTypeName: Setting, Assembly-CSharp
+        m_MethodName: Acceleration
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &50517933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -843,7 +855,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 253017838}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2096161186}
+        m_TargetAssemblyTypeName: Setting, Assembly-CSharp
+        m_MethodName: OneHandButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &253017838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1630,7 +1654,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 805833683}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2096161186}
+        m_TargetAssemblyTypeName: Setting, Assembly-CSharp
+        m_MethodName: OneHandButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &805833683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1891,9 +1927,7 @@ MonoBehaviour:
   loseAnim: {fileID: 0}
   nowCanReplay: 0
   newColor: {r: 0, g: 0, b: 0, a: 0}
-  trigger: {fileID: 912314171}
   colorOfPlayer: {r: 0, g: 0, b: 0, a: 0}
-  mainPosition: {x: 0, y: 0}
   mainScale: {x: 0.24, y: 0.423}
   targetScale:
   - {x: 0.34, y: 0.6}
@@ -2054,13 +2088,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainPosition: {x: 0, y: 0}
-  movement: {x: 0, y: 0}
   moveDirection: 0
-  player: {fileID: 912314176}
+  movementNumber: 0
   gameManager: {fileID: 70944993}
   right: 0
   left: 0
-  speed: 10
+  setting: {fileID: 0}
 --- !u!1 &993385277
 GameObject:
   m_ObjectHideFlags: 0
@@ -2418,7 +2451,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1139411486}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2096161186}
+        m_TargetAssemblyTypeName: Setting, Assembly-CSharp
+        m_MethodName: TwoHandButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1139411486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2914,7 +2959,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1368446200}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2096161186}
+        m_TargetAssemblyTypeName: Setting, Assembly-CSharp
+        m_MethodName: TwoHandButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1368446200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3418,7 +3475,7 @@ RectTransform:
   - {fileID: 2003607701}
   - {fileID: 874402732}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3541,8 +3598,8 @@ RectTransform:
   - {fileID: 749685032}
   - {fileID: 1544134654}
   - {fileID: 1227079413}
-  - {fileID: 1139411484}
   - {fileID: 805833681}
+  - {fileID: 1139411484}
   - {fileID: 50517931}
   m_Father: {fileID: 1571866710}
   m_RootOrder: -1
@@ -3672,7 +3729,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1788810946}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2096161186}
+        m_TargetAssemblyTypeName: Setting, Assembly-CSharp
+        m_MethodName: Acceleration
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1788810946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3815,8 +3884,8 @@ RectTransform:
   - {fileID: 1161889673}
   - {fileID: 607321566}
   - {fileID: 2042965893}
-  - {fileID: 1368446198}
   - {fileID: 253017836}
+  - {fileID: 1368446198}
   - {fileID: 1788810944}
   m_Father: {fileID: 1571866710}
   m_RootOrder: -1
@@ -3985,6 +4054,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042965892}
   m_CullTransparentMesh: 1
+--- !u!1 &2096161185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2096161187}
+  - component: {fileID: 2096161186}
+  m_Layer: 0
+  m_Name: Setting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2096161186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096161185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ba7ea263c381744c9b9b5b4658607d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovementNumber: 0
+--- !u!4 &2096161187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096161185}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -975.36865, y: -232.54578, z: -35.47715}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2120428881
 GameObject:
   m_ObjectHideFlags: 0

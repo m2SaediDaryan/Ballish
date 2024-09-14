@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-
         currentScoreText_GP.text = currentScore.ToString();
         currentScoreText_RP.text = currentScore.ToString();
         if (currentScore > highScore)

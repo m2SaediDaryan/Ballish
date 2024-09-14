@@ -2,39 +2,37 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public enum PlayerMovementSelect
-{
-    OneHand,
-    TwoHand,
-    Acceleration
-}
 public class PlayerMovement : MonoBehaviour
 {
     public Vector2 mainPosition;
     public float moveDirection;
+    public int movementNumber;
     public GameManager gameManager;
-    //public PlayerMovementSelect movementSelect;
-    public PlayerMovementSelect newMovementSelect;
+    //public PlayerMovementSelect newMovementSelect;
     public bool right;
     public bool left;
     private Vector3 initialTouchPosition;
     private Vector3 initialPlayerPosition;
+    public Setting setting;
 
     private void Start()
     {
-        newMovementSelect = PlayerMovementSelect.Acceleration;
+        //movementSelect = PlayerMovementSelect.Acceleration;
+        setting = FindObjectOfType<Setting>();
         gameManager = FindObjectOfType<GameManager>();
         mainPosition = transform.position;
     }
 
     void FixedUpdate()
     {
+        //currentMovementType = LoadMovementSetting();
         if (gameManager.state == GameState.Play)
         {
             //movementSelect = newMovementSelect;
-            switch (newMovementSelect)
+            movementNumber=PlayerPrefs.GetInt("MovementNumber");
+            switch (movementNumber)
             {
-                case PlayerMovementSelect.OneHand:
+                case 1:
                     if (Input.touchCount > 0)
                     {
                         Touch touch = Input.GetTouch(0);
@@ -60,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
                         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -screenWidth, screenWidth), transform.position.y, transform.position.z);
                     }
                     break;
-                case PlayerMovementSelect.TwoHand:
+                case 2:
                     if (right && !left)
                     {
                         moveDirection = 4.5f;
@@ -72,13 +70,13 @@ public class PlayerMovement : MonoBehaviour
                         transform.Translate(moveDirection * Time.deltaTime, 0, 0);
                     }
                     break;
-                case PlayerMovementSelect.Acceleration:
+                case 3:
                     float h = Input.acceleration.x;
                     transform.Translate(h * 5 * Time.deltaTime, 0, 0);
                     break;
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(newMovementSelect), newMovementSelect, null);
+                    throw new ArgumentOutOfRangeException(nameof(setting.playerMovementNumber), setting.playerMovementNumber, null);
             }
         }
         else if (gameManager.state == GameState.Lose)
