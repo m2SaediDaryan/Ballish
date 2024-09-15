@@ -3,7 +3,6 @@ using UnityEngine;
 public class Setting : MonoBehaviour
 {
     public int playerMovementNumber;
-    
     void Awake()
     {
         // Check if it's the first time the app is opened
@@ -30,15 +29,15 @@ public class Setting : MonoBehaviour
     {
         if (playerMovementNumber == 1)
         {
-            OneHandButton(); // Apply One Hand control logic
+            OneHandButton();
         }
         else if (playerMovementNumber == 2)
         {
-            TwoHandButton(); // Apply Two Hand control logic
+            TwoHandButton();
         }
         else if (playerMovementNumber == 3)
         {
-            Acceleration(); // Apply Acceleration control logic
+            Acceleration();
         }
     }
 
@@ -47,7 +46,6 @@ public class Setting : MonoBehaviour
         playerMovementNumber = 1;
         PlayerPrefs.SetInt("MovementNumber", playerMovementNumber);
         PlayerPrefs.Save();
-        Debug.Log("Movement set to One Hand");
     }
 
     public void TwoHandButton()
@@ -55,7 +53,6 @@ public class Setting : MonoBehaviour
         playerMovementNumber = 2;
         PlayerPrefs.SetInt("MovementNumber", playerMovementNumber);
         PlayerPrefs.Save();
-        Debug.Log("Movement set to Two Hands");
     }
 
     public void Acceleration()
@@ -63,6 +60,5 @@ public class Setting : MonoBehaviour
         playerMovementNumber = 3;
         PlayerPrefs.SetInt("MovementNumber", playerMovementNumber);
         PlayerPrefs.Save();
-        Debug.Log("Movement set to Acceleration");
     }
 }
