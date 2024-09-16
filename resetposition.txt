@@ -1,0 +1,33 @@
+/*public void ResetPlayerPosition()
+    {
+        resetCoroutine = StartCoroutine(SmoothResetPosition(mainPosition, 1.0f));
+    }*/
+    /*IEnumerator SmoothResetPosition(Vector3 targetPosition, float duration)
+    {
+        Vector3 initialPosition = transform.position;
+        elapsedTime = 0f;
+
+        while (true)
+        {
+            if (elapsedTime <= duration)
+            {
+                transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / duration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+                Debug.Log(elapsedTime);
+            }
+            if (elapsedTime > 1)
+            {
+                elapsedTime = 0f;
+                StopCoroutine(resetCoroutine);
+                break;
+            }
+        }
+        //elapsedTime = 0f;
+        transform.position = targetPosition;
+    }*/
+	
+	
+	
+	//ResetPlayerPosition();
+            // the bug for after player lose we cant move is for elapsed time that declare in courotine 

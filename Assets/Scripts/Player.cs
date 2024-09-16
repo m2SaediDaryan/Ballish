@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     private GameManager gameManager;
     public int nowCanReplay;
     [SerializeField] private Color newColor;
-    
+
     [Header("Colors")]
     private string[] colorPalettePlayer = { "#FDFFFC", "#FF0022", "#41EAD4", "#2E86AB" };
     [SerializeField] private Color colorOfPlayer;
@@ -26,16 +26,12 @@ public class Player : MonoBehaviour
     //public Vector3 targetScale2 = new Vector3(0.17f, 0.59f, 0.423f);
     //public Vector3 targetScale3 = new Vector3(0.24f, 0.95f, 0.423f);
     //public Vector3 targetScale4 = new Vector3(0.32f, 0.423f, 0.423f); // The scale you want to reach
-    public float duration = 2.0f;
 
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         loseAnim = GetComponent<Animator>();
         StartCoroutine(ChangeColorCo());
-        //CheckColor();
-        //StartCoroutine(ScaleCoroutine(targetScale, duration));
-        //CheckStatemant();        
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -58,7 +54,6 @@ public class Player : MonoBehaviour
             gameManager.UpdateGameState(GameState.Lose);
             ChangeColorToWhite();
             loseAnim.SetBool("lose", true);
-            
             //Debug.Log("lose");
         }
     }
@@ -147,7 +142,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5f);
     }*/
 
-    IEnumerator ScaleCoroutine(Vector3 targetScale, float duration)
+    /*IEnumerator ScaleCoroutine(Vector3 targetScale, float duration)
     {
         //if (scoreManager.currentScore > 5)
 
@@ -164,9 +159,9 @@ public class Player : MonoBehaviour
         transform.localScale = targetScale; // Ensure the target scale is set at the end
 
 
-    }
+    }*/
 
-    IEnumerator ScaleBackToMain(Vector3 mainScale, float duration)
+    /*IEnumerator ScaleBackToMain(Vector3 mainScale, float duration)
     {
         Vector3 initialScale = transform.localScale;
         float elapsedTime = 0f;
@@ -180,7 +175,7 @@ public class Player : MonoBehaviour
 
         transform.localScale = mainScale;
         //lastScaleIndex = -1;
-    }
+    }*/
 
     public void LoseAnimEnd(int intAnim)
     {

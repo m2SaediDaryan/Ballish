@@ -59,30 +59,23 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Start:
-                //playerMovement.Right_U();
-                //playerMovement.Left_U();
                 currentScore = 0;
                 panelManager.startPanel.SetActive(true);
                 allowToChangeColor=false;
-                //state = GameState.Play;
                 break;
             case GameState.Play:
                 allowToChangeColor=true;
                 player.ChangeColorToWhite();
-                //playerMovment.isPressed = false;
                 break;
             case GameState.Pause:
                 break;
             case GameState.Lose:
-                //Debug.Log("lose");
                 Handheld.Vibrate();
                 playerMovement.right=false;
                 playerMovement.left = false;
                 allowToChangeColor=false;
-                //playerMovement.ResetPlayerPosition();
                 panelManager.gamePanel.SetActive(false);
                 panelManager.replayPanel.SetActive(true);
-                //player.loseAnim.SetBool("lose",false);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
