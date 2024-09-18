@@ -1,8 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
+
 
 public class Player : MonoBehaviour
 {
+    //public SoundManager soundManager;
+    public AudioClip lose;
+    public AudioClip get;
+    public AudioSource source;
     public Animator loseAnim;
     private GameManager gameManager;
     public int nowCanReplay;
@@ -22,6 +28,9 @@ public class Player : MonoBehaviour
         new Vector2(0.32f, 0.423f)
     };
 
+    public AudioMixer audioMixer;
+    public string loseSnapshot = "LoseSnapshot";  // Name of your snapshot
+
     //private int lastScaleIndex;
     //public Vector3 targetScale2 = new Vector3(0.17f, 0.59f, 0.423f);
     //public Vector3 targetScale3 = new Vector3(0.24f, 0.95f, 0.423f);
@@ -29,6 +38,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        //soundManager = FindObjectOfType<SoundManager>();
         gameManager = FindObjectOfType<GameManager>();
         loseAnim = GetComponent<Animator>();
         StartCoroutine(ChangeColorCo());
@@ -47,10 +57,14 @@ public class Player : MonoBehaviour
         {
             Destroy(other.gameObject);
             gameManager.currentScore++;
+            source.PlayOneShot(get);
             //Debug.Log(gameManager.currentScoreText_GP);
         }
         else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play)
         {
+            /*audioMixer.TransitionToSnapshots(new AudioMixerSnapshot[] { audioMixer.FindSnapshot(loseSnapshot) }, new float[] { 1.0f }, 1f);
+            soundManager.PlayLoseSound();*/
+            source.PlayOneShot(lose);
             gameManager.UpdateGameState(GameState.Lose);
             ChangeColorToWhite();
             loseAnim.SetBool("lose", true);
@@ -192,4 +206,5 @@ public class Player : MonoBehaviour
             nowCanReplay = 2;
         }
     }
+
 }

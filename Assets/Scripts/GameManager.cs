@@ -27,13 +27,17 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        /*int maxRefreshRate = Screen.currentResolution.refreshRate;
+        Application.targetFrameRate = maxRefreshRate;*/
         Instance = this;
         player = FindObjectOfType<Player>();
-        playerMovement =FindObjectOfType<PlayerMovement>();
+        playerMovement = FindObjectOfType<PlayerMovement>();
         panelManager = FindObjectOfType<PanelManager>();
     }
     void Start()
     {
+        //int maxRefreshRate = Screen.currentResolution.refreshRate;
+        Application.targetFrameRate = 120;
         UpdateGameState(GameState.Start);
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         highScoreText_SP.text = "High Score : " + highScore.ToString();
@@ -61,19 +65,19 @@ public class GameManager : MonoBehaviour
             case GameState.Start:
                 currentScore = 0;
                 panelManager.startPanel.SetActive(true);
-                allowToChangeColor=false;
+                allowToChangeColor = false;
                 break;
             case GameState.Play:
-                allowToChangeColor=true;
+                allowToChangeColor = true;
                 player.ChangeColorToWhite();
                 break;
             case GameState.Pause:
                 break;
             case GameState.Lose:
                 Handheld.Vibrate();
-                playerMovement.right=false;
+                playerMovement.right = false;
                 playerMovement.left = false;
-                allowToChangeColor=false;
+                allowToChangeColor = false;
                 panelManager.gamePanel.SetActive(false);
                 panelManager.replayPanel.SetActive(true);
                 break;
