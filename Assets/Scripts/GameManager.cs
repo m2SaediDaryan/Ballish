@@ -74,7 +74,10 @@ public class GameManager : MonoBehaviour
             case GameState.Pause:
                 break;
             case GameState.Lose:
-                Handheld.Vibrate();
+                if(PlayerPrefs.GetInt("Vibrate",1)==1)
+                {
+                    Handheld.Vibrate();
+                }
                 playerMovement.right = false;
                 playerMovement.left = false;
                 allowToChangeColor = false;
