@@ -5,7 +5,6 @@ using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
 {
-    //public SoundManager soundManager;
     public AudioClip lose;
     public AudioClip get;
     public AudioSource source;
@@ -17,28 +16,15 @@ public class Player : MonoBehaviour
     [Header("Colors")]
     private string[] colorPalettePlayer = { "#FDFFFC", "#FF0022", "#41EAD4", "#2E86AB" };
     [SerializeField] private Color colorOfPlayer;
-
-    //mainscale(0.24f, 0.423f, 0.423f)
-    public Vector2 mainScale = new Vector3(0.24f, 0.423f);
-    public Vector2[] targetScale = new Vector2[]
-    {
-        new Vector2(0.34f, 0.6f),
-        new Vector2(0.17f, 0.59f),
-        new Vector2(0.24f, 0.95f),
-        new Vector2(0.32f, 0.423f)
-    };
-
+    public Vector2 mainScale;
     public AudioMixer audioMixer;
-    public string loseSnapshot = "LoseSnapshot";  // Name of your snapshot
-
-    //private int lastScaleIndex;
-    //public Vector3 targetScale2 = new Vector3(0.17f, 0.59f, 0.423f);
-    //public Vector3 targetScale3 = new Vector3(0.24f, 0.95f, 0.423f);
-    //public Vector3 targetScale4 = new Vector3(0.32f, 0.423f, 0.423f); // The scale you want to reach
+    public string loseSnapshot = "LoseSnapshot";
+    public int sameTagCollected;
+    public Animator animator;
 
     void Start()
     {
-        //soundManager = FindObjectOfType<SoundManager>();
+        mainScale = transform.localScale;
         gameManager = FindObjectOfType<GameManager>();
         loseAnim = GetComponent<Animator>();
         StartCoroutine(ChangeColorCo());
@@ -46,29 +32,27 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        //string tag = other.tag;
-        /*if (other.CompareTag("Dot"))
-        {
-            Destroy(other.gameObject);
-            // Debug.Log("Triggered");
-        }*/
-
         if (ColorToHex(colorOfPlayer) == other.tag && gameManager.state == GameState.Play)
         {
             Destroy(other.gameObject);
             gameManager.currentScore++;
             source.PlayOneShot(get);
-            //Debug.Log(gameManager.currentScoreText_GP);
+            sameTagCollected++;
+            Debug.Log(sameTagCollected);
+            if (sameTagCollected > 2)
+            {
+                animator.enabled = false;
+                StartCoroutine(ScaleUp());
+            }
         }
         else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play)
         {
-            /*audioMixer.TransitionToSnapshots(new AudioMixerSnapshot[] { audioMixer.FindSnapshot(loseSnapshot) }, new float[] { 1.0f }, 1f);
-            soundManager.PlayLoseSound();*/
+            animator.enabled = true;
             source.PlayOneShot(lose);
             gameManager.UpdateGameState(GameState.Lose);
             ChangeColorToWhite();
             loseAnim.SetBool("lose", true);
-            //Debug.Log("lose");
+            sameTagCollected = 0;
         }
     }
 
@@ -141,6 +125,7 @@ public class Player : MonoBehaviour
         {
             ChangeColor();
             yield return new WaitForSeconds(12f);
+            sameTagCollected=0;
         }
     }
 
@@ -150,46 +135,37 @@ public class Player : MonoBehaviour
         return $"#{ColorUtility.ToHtmlStringRGB(color)}";
     }
 
-    /*IEnumerator ChangeScale()
+    IEnumerator ScaleUp()
     {
-        //transform.localScale = newScale;
-        yield return new WaitForSeconds(5f);
-    }*/
+        float elapsedTime = 0;
+        float transitionPercentage = 0;
+        Vector3 startScale = transform.localScale;
 
-    /*IEnumerator ScaleCoroutine(Vector3 targetScale, float duration)
-    {
-        //if (scoreManager.currentScore > 5)
-
-        Vector3 initialScale = transform.localScale;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
+        while (transitionPercentage < 1)
         {
-            transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
-            yield return null; // Wait until the next frame
+            transitionPercentage = elapsedTime / 2f;
+            transform.localScale = Vector3.Lerp(startScale, new Vector3(1.8f, 1, 1), transitionPercentage);
+            yield return null;
         }
-
-        transform.localScale = targetScale; // Ensure the target scale is set at the end
-
-
-    }*/
-
-    /*IEnumerator ScaleBackToMain(Vector3 mainScale, float duration)
+        yield return new WaitForSeconds(4f);
+        StartCoroutine(ScaleDown());
+    }
+    IEnumerator ScaleDown()
     {
-        Vector3 initialScale = transform.localScale;
-        float elapsedTime = 0f;
+        float elapsedTime = 0;
+        float transitionPercentage = 0;
+        Vector3 startScale = transform.localScale;
 
-        while (elapsedTime < duration)
+        while (transitionPercentage < 1)
         {
-            transform.localScale = Vector3.Lerp(initialScale, mainScale, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
-            yield return null; // Wait until the next frame
-        }
+            transitionPercentage = elapsedTime / 2f;
+            transform.localScale = Vector3.Lerp(startScale, new Vector3(1, 1, 1), transitionPercentage);
 
-        transform.localScale = mainScale;
-        //lastScaleIndex = -1;
-    }*/
+            yield return null;
+        }
+    }
 
     public void LoseAnimEnd(int intAnim)
     {

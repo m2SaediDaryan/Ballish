@@ -12,12 +12,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 initialTouchPosition;
     private Vector3 initialPlayerPosition;
     public Setting setting;
-    
+
     private void Start()
     {
+        mainPosition = transform.position;
         setting = FindObjectOfType<Setting>();
         gameManager = FindObjectOfType<GameManager>();
-        mainPosition = transform.position;
     }
 
     void FixedUpdate()
