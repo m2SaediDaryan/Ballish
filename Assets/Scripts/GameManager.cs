@@ -83,6 +83,10 @@ public class GameManager : MonoBehaviour
                 allowToChangeColor = false;
                 panelManager.gamePanel.SetActive(false);
                 panelManager.replayPanel.SetActive(true);
+                panelManager.replayPanelAnim.enabled = true;
+                
+                //panelManager.replayPanelAnim.SetBool("RPEnable",true);
+                //panelManager.replayPanelAnim.SetBool("RPlose",true);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);

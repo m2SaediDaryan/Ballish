@@ -6,13 +6,21 @@ public class Setting : MonoBehaviour
 {
     public AudioMixer allAudioMixer;
     public int playerMovementNumber;
-    //private bool muted = false;
     public Image soundButton;
     public Image vibrateButton;
+    public Image oneHandMode;
+    public Image twoHandMode;
+    public Image acceleration;
     public Sprite musicOnSprite;
     public Sprite musicOffSprite;
     public Sprite VibrateOnSprite;
     public Sprite VibrateOffSprite;
+    public Sprite oneHandOnSprite;
+    public Sprite oneHandOffSprite;
+    public Sprite twoHandOnSprite;
+    public Sprite twoHandOffSprite;
+    public Sprite accelerationOnSprite;
+    public Sprite accelerationOffSprite;
 
     void Awake()
     {
@@ -94,6 +102,9 @@ public class Setting : MonoBehaviour
     {
         playerMovementNumber = 1;
         PlayerPrefs.SetInt("MovementNumber", playerMovementNumber);
+        oneHandMode.sprite=oneHandOnSprite;
+        twoHandMode.sprite=twoHandOffSprite;
+        acceleration.sprite=accelerationOffSprite;
         PlayerPrefs.Save();
     }
 
@@ -101,6 +112,9 @@ public class Setting : MonoBehaviour
     {
         playerMovementNumber = 2;
         PlayerPrefs.SetInt("MovementNumber", playerMovementNumber);
+        oneHandMode.sprite=oneHandOffSprite;
+        twoHandMode.sprite=twoHandOnSprite;
+        acceleration.sprite=accelerationOffSprite;
         PlayerPrefs.Save();
     }
 
@@ -108,6 +122,9 @@ public class Setting : MonoBehaviour
     {
         playerMovementNumber = 3;
         PlayerPrefs.SetInt("MovementNumber", playerMovementNumber);
+        oneHandMode.sprite=oneHandOffSprite;
+        twoHandMode.sprite=twoHandOffSprite;
+        acceleration.sprite=accelerationOnSprite;
         PlayerPrefs.Save();
     }
 
