@@ -12,6 +12,7 @@ public class PanelManager : MonoBehaviour
     public Animator replayPanelAnim;
     public int nowCanTurnOffRP;
     public bool settingFromStart;
+    public bool gameStarted;
     [SerializeField] public bool settingTouched = false;
 
     void Awake()
@@ -20,8 +21,9 @@ public class PanelManager : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    public void StartButton()
+    public void OnStartButtonPressed()
     {
+        gameStarted = true;
         gameManager.UpdateGameState(GameState.Play);
         startPanel.SetActive(false);
         gamePanel.SetActive(true);

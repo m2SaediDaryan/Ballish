@@ -16,11 +16,17 @@ public class Player : MonoBehaviour
     [Header("Colors")]
     private string[] colorPalettePlayer = { "#FDFFFC", "#FF0022", "#41EAD4", "#2E86AB" };
     [SerializeField] private Color colorOfPlayer;
-    public Vector2 mainScale;
     public AudioMixer audioMixer;
     public string loseSnapshot = "LoseSnapshot";
     public int sameTagCollected;
     public Animator animator;
+    public Vector2 mainScale;
+    public float maxScale;
+    public float scaleUpRate;
+    public float scaleDownRate;
+    public float scaleUpTimer;
+    public float scaleUpStartTime = 6f;
+
 
     void Start()
     {
@@ -39,7 +45,7 @@ public class Player : MonoBehaviour
             source.PlayOneShot(get);
             sameTagCollected++;
             Debug.Log(sameTagCollected);
-            if (sameTagCollected > 2)
+            if (sameTagCollected > 2 && sameTagCollected < 4)
             {
                 animator.enabled = false;
                 StartCoroutine(ScaleUp());
@@ -125,7 +131,7 @@ public class Player : MonoBehaviour
         {
             ChangeColor();
             yield return new WaitForSeconds(12f);
-            sameTagCollected=0;
+            sameTagCollected = 0;
         }
     }
 
@@ -135,7 +141,7 @@ public class Player : MonoBehaviour
         return $"#{ColorUtility.ToHtmlStringRGB(color)}";
     }
 
-    IEnumerator ScaleUp()
+    /*IEnumerator ScaleUp()
     {
         float elapsedTime = 0;
         float transitionPercentage = 0;
@@ -165,7 +171,36 @@ public class Player : MonoBehaviour
 
             yield return null;
         }
+    }*/
+
+    IEnumerator ScaleUp()
+    {
+        while (true)
+        {
+            if (scaleUpTimer >= scaleUpStartTime && transform.localScale.x < maxScale)
+            {
+                float elapsedTime = 0;
+                float transitionPercentage = 0;
+                Vector3 startScale = transform.localScale;
+
+                while (transitionPercentage < 1 && transform.localScale.x < maxScale)
+                {
+                    elapsedTime += Time.deltaTime;
+                    transitionPercentage = elapsedTime / 2f;
+                    transform.localScale = Vector3.Lerp(startScale, new Vector3(transform.localScale.x + scaleUpRate, 1, 1), transitionPercentage);
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+            else
+            {
+                scaleUpTimer += Time.deltaTime;
+            }
+            //yield return null;
+        }
+
     }
+
+
 
     public void LoseAnimEnd(int intAnim)
     {
