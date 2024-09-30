@@ -12,16 +12,21 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int currentScore = 0;
+    public int heartScore = 0;
+    public int highScore;
     public bool allowToChangeColor;
     private PanelManager panelManager;
     private Player player;
     private PlayerMovement playerMovement;
-    public int highScore;
+    public SpawnMaker spawnMaker;
+    public bool gravitySpawned=false;
+
     [SerializeField]
     public Text currentScoreText_GP;
     public Text currentScoreText_RP;
     public Text highScoreText_SP;
     public Text highScoreText_RP;
+    public Text heartText_GP;
     public GameState state;//video
     public static event Action<GameState> OnGameStateChanged;
 
@@ -33,6 +38,11 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         playerMovement = FindObjectOfType<PlayerMovement>();
         panelManager = FindObjectOfType<PanelManager>();
+        spawnMaker = FindObjectOfType<SpawnMaker>();
+        if (spawnMaker == null)
+        {
+            Debug.LogError("SpawnMaker object not found!");
+        }
     }
     void Start()
     {
@@ -48,6 +58,8 @@ public class GameManager : MonoBehaviour
     {
         currentScoreText_GP.text = currentScore.ToString();
         currentScoreText_RP.text = currentScore.ToString();
+        heartText_GP.text= heartScore.ToString();
+
         if (currentScore > highScore)
         {
             highScore = currentScore;
@@ -56,6 +68,8 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", highScore);
         }
     }
+
+    
 
     public void UpdateGameState(GameState newState)
     {
@@ -74,7 +88,7 @@ public class GameManager : MonoBehaviour
             case GameState.Pause:
                 break;
             case GameState.Lose:
-                if(PlayerPrefs.GetInt("Vibrate",1)==1)
+                if (PlayerPrefs.GetInt("Vibrate", 1) == 1)
                 {
                     Handheld.Vibrate();
                 }
@@ -84,7 +98,7 @@ public class GameManager : MonoBehaviour
                 panelManager.gamePanel.SetActive(false);
                 panelManager.replayPanel.SetActive(true);
                 panelManager.replayPanelAnim.enabled = true;
-                
+
                 //panelManager.replayPanelAnim.SetBool("RPEnable",true);
                 //panelManager.replayPanelAnim.SetBool("RPlose",true);
                 break;

@@ -31,23 +31,21 @@ public class PlayerMovement : MonoBehaviour
             switch (movementNumber)
             {
                 case 1:
-                    if (Input.touchCount > 0 && nowCanReplayPlayerMovment == 2)
+                    if (Input.touchCount > 0)
                     {
                         Touch touch = Input.GetTouch(0);
 
                         if (touch.phase == TouchPhase.Began)
                         {
-                            //touch.position.y=0f;
-                            initialTouchPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, mainPosition.y, Camera.main.transform.position.z - transform.position.z));
-                            initialTouchPosition.y = mainPosition.y;
+                            initialTouchPosition = Camera.main.ScreenToWorldPoint(touch.position);
                             initialTouchPosition.z = 0f;
                             initialPlayerPosition = mainPosition;
+                            //initialPlayerPosition = transform.position;
                         }
 
                         if (touch.phase == TouchPhase.Moved)
                         {
-                            Vector3 currentTouchPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, mainPosition.y, Camera.main.transform.position.z - transform.position.z));
-                            currentTouchPosition.y = mainPosition.y;
+                            Vector3 currentTouchPosition = Camera.main.ScreenToWorldPoint(touch.position);
                             currentTouchPosition.z = 0f;
 
                             Vector3 movementDelta = currentTouchPosition - initialTouchPosition;
@@ -56,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
                         // Clamp to screen bounds
                         float screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
-                        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -screenWidth, screenWidth), mainPosition.y, transform.position.z);
+                        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -screenWidth, screenWidth), mainPosition.y, mainPosition.z);
                     }
                     break;
                 case 2:

@@ -4,14 +4,17 @@ using UnityEngine;
 public class SpawnMaker : MonoBehaviour
 {
     public GameObject[] spawnPrefabs;
+    public GameObject[] spawnPrefabsGravity;
+    public GameObject[] spawnPosition;
 
     [SerializeField]
     public float minX;
     public float maxX;
     public float minAngle, maxAngle;
     public float SecondSpawn = 0.5f;
-
     public int maxGenerate = 100;
+    public GameObject heartPrefab;
+    public GameObject GuardPrefab;
     void Start()
     {
         StartCoroutine(SpawnPrefabs());
@@ -46,6 +49,33 @@ public class SpawnMaker : MonoBehaviour
             GameObject gameObject = Instantiate(spawnPrefabs[Random.Range(0, spawnPrefabs.Length)], position, randomRotation);
             yield return new WaitForSeconds(SecondSpawn);
             Destroy(gameObject, 5f);
+        }
+    }
+
+    public void SpawnPrefabsGravity()
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            var position = Random.Range(0, spawnPosition.Length);
+            Instantiate(spawnPrefabsGravity[Random.Range(0, spawnPrefabsGravity.Length)], spawnPosition[position].transform.position, Quaternion.identity);
+        }
+    }
+
+    public void SpawnPrefabsHeart()
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            var position = Random.Range(0, spawnPosition.Length);
+            Instantiate(heartPrefab, spawnPosition[position].transform.position, Quaternion.identity);
+        }
+    }
+
+    public void SpawnPrefabsGuard()
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            var position = Random.Range(0, spawnPosition.Length);
+            Instantiate(GuardPrefab, spawnPosition[position].transform.position, Quaternion.identity);
         }
     }
 }

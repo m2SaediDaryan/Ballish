@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public AudioSource source;
     public Animator loseAnim;
     private GameManager gameManager;
+    public SpawnMaker spawnMaker;
     public int nowCanReplay;
     [SerializeField] private Color newColor;
 
@@ -21,21 +22,23 @@ public class Player : MonoBehaviour
     public int sameTagCollected;
     public Animator animator;
     public Vector2 mainScale;
+    public GameObject GaurdObject;
     public float maxScale;
     public float scaleUpRate;
     public float scaleDownRate;
     public float scaleUpTimer;
     public float scaleUpStartTime = 6f;
-
+    public bool scaleUpBool = false;
+    public bool scaleDownBool = false;
 
     void Start()
     {
+        spawnMaker = FindObjectOfType<SpawnMaker>();
         mainScale = transform.localScale;
         gameManager = FindObjectOfType<GameManager>();
         loseAnim = GetComponent<Animator>();
         StartCoroutine(ChangeColorCo());
     }
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (ColorToHex(colorOfPlayer) == other.tag && gameManager.state == GameState.Play)
@@ -48,10 +51,36 @@ public class Player : MonoBehaviour
             if (sameTagCollected > 2 && sameTagCollected < 4)
             {
                 animator.enabled = false;
-                StartCoroutine(ScaleUp());
+                scaleUpBool = true;
+                //StartCoroutine(ScaleUp());
+
+            }
+            if (sameTagCollected > 2 && gameManager.currentScore > 4)
+            {
+                CollectSameTag();
+            }
+            if (gameManager.currentScore > 4 && gameManager.currentScore % 5 == 0)
+            {
+                //spawnMaker.SpawnPrefabsGravity();
+                //spawnMaker.SpawnPrefabsHeart();
+                spawnMaker.SpawnPrefabsGuard();
             }
         }
-        else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play)
+        else if ("Heart" == other.tag && gameManager.state == GameState.Play)
+        {
+            gameManager.heartScore++;
+            Destroy(other.gameObject);
+        }
+        else if("Guard" == other.tag && gameManager.state == GameState.Play)
+        {
+            GaurdObject.SetActive(true);
+        }
+        else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play && gameManager.heartScore > 0)
+        {
+            gameManager.heartScore--;
+            Destroy(other.gameObject);
+        }
+        else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play && gameManager.heartScore == 0 && "Walls" != other.tag)
         {
             animator.enabled = true;
             source.PlayOneShot(lose);
@@ -59,6 +88,37 @@ public class Player : MonoBehaviour
             ChangeColorToWhite();
             loseAnim.SetBool("lose", true);
             sameTagCollected = 0;
+        }
+    }
+
+    void Update()
+    {
+        if (scaleUpBool && transform.localScale.x <= 2f)
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(transform.localScale.x + scaleUpRate, 1, 1), 1.5f * Time.deltaTime);
+        }
+
+        if (scaleDownBool && transform.localScale.x > 1f)
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, mainScale, 1.5f * Time.deltaTime);
+        }
+
+        if (!scaleUpBool && !scaleDownBool)
+        {
+            scaleUpTimer += Time.deltaTime;
+            if (scaleUpTimer >= scaleUpStartTime)
+            {
+                scaleUpBool = true;
+            }
+        }
+    }
+
+    public void CollectSameTag()
+    {
+        if (scaleUpBool)
+        {
+            scaleUpBool = false;
+            scaleDownBool = true;
         }
     }
 
@@ -132,6 +192,8 @@ public class Player : MonoBehaviour
             ChangeColor();
             yield return new WaitForSeconds(12f);
             sameTagCollected = 0;
+            scaleUpBool = false;
+            scaleDownBool = false;
         }
     }
 
@@ -140,66 +202,6 @@ public class Player : MonoBehaviour
     {
         return $"#{ColorUtility.ToHtmlStringRGB(color)}";
     }
-
-    /*IEnumerator ScaleUp()
-    {
-        float elapsedTime = 0;
-        float transitionPercentage = 0;
-        Vector3 startScale = transform.localScale;
-
-        while (transitionPercentage < 1)
-        {
-            elapsedTime += Time.deltaTime;
-            transitionPercentage = elapsedTime / 2f;
-            transform.localScale = Vector3.Lerp(startScale, new Vector3(1.8f, 1, 1), transitionPercentage);
-            yield return null;
-        }
-        yield return new WaitForSeconds(4f);
-        StartCoroutine(ScaleDown());
-    }
-    IEnumerator ScaleDown()
-    {
-        float elapsedTime = 0;
-        float transitionPercentage = 0;
-        Vector3 startScale = transform.localScale;
-
-        while (transitionPercentage < 1)
-        {
-            elapsedTime += Time.deltaTime;
-            transitionPercentage = elapsedTime / 2f;
-            transform.localScale = Vector3.Lerp(startScale, new Vector3(1, 1, 1), transitionPercentage);
-
-            yield return null;
-        }
-    }*/
-
-    IEnumerator ScaleUp()
-    {
-        while (true)
-        {
-            if (scaleUpTimer >= scaleUpStartTime && transform.localScale.x < maxScale)
-            {
-                float elapsedTime = 0;
-                float transitionPercentage = 0;
-                Vector3 startScale = transform.localScale;
-
-                while (transitionPercentage < 1 && transform.localScale.x < maxScale)
-                {
-                    elapsedTime += Time.deltaTime;
-                    transitionPercentage = elapsedTime / 2f;
-                    transform.localScale = Vector3.Lerp(startScale, new Vector3(transform.localScale.x + scaleUpRate, 1, 1), transitionPercentage);
-                    yield return new WaitForSeconds(1f);
-                }
-            }
-            else
-            {
-                scaleUpTimer += Time.deltaTime;
-            }
-            //yield return null;
-        }
-
-    }
-
 
 
     public void LoseAnimEnd(int intAnim)
