@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
-
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -30,6 +30,11 @@ public class Player : MonoBehaviour
     public float scaleUpStartTime = 6f;
     public bool scaleUpBool = false;
     public bool scaleDownBool = false;
+    public bool timerActive = false;
+    public int startTime = 10;
+    public float currentTime;
+    public Text currentTimerText;
+    public GameObject ClockAndTime;
 
     void Start()
     {
@@ -38,6 +43,7 @@ public class Player : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         loseAnim = GetComponent<Animator>();
         StartCoroutine(ChangeColorCo());
+        currentTime = startTime;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -47,7 +53,7 @@ public class Player : MonoBehaviour
             gameManager.currentScore++;
             source.PlayOneShot(get);
             sameTagCollected++;
-            Debug.Log(sameTagCollected);
+            //Debug.Log(sameTagCollected);
             if (sameTagCollected > 2 && sameTagCollected < 4)
             {
                 animator.enabled = false;
@@ -59,11 +65,23 @@ public class Player : MonoBehaviour
             {
                 CollectSameTag();
             }
-            if (gameManager.currentScore > 4 && gameManager.currentScore % 5 == 0)
+            if (gameManager.currentScore > 4 && gameManager.currentScore % 15 == 0)
             {
                 //spawnMaker.SpawnPrefabsGravity();
                 //spawnMaker.SpawnPrefabsHeart();
                 spawnMaker.SpawnPrefabsGuard();
+            }
+            if (gameManager.currentScore > 4 && gameManager.currentScore % 20 == 0)
+            {
+                //spawnMaker.SpawnPrefabsGravity();
+                spawnMaker.SpawnPrefabsHeart();
+                //spawnMaker.SpawnPrefabsGuard();
+            }
+            if (gameManager.currentScore > 4 && gameManager.currentScore % 10 == 0)
+            {
+                spawnMaker.SpawnPrefabsGravity();
+                //spawnMaker.SpawnPrefabsHeart();
+                //spawnMaker.SpawnPrefabsGuard();
             }
         }
         else if ("Heart" == other.tag && gameManager.state == GameState.Play)
@@ -71,9 +89,12 @@ public class Player : MonoBehaviour
             gameManager.heartScore++;
             Destroy(other.gameObject);
         }
-        else if("Guard" == other.tag && gameManager.state == GameState.Play)
+        else if ("Guard" == other.tag && gameManager.state == GameState.Play)
         {
+            Destroy(other.gameObject);
             GaurdObject.SetActive(true);
+            ClockAndTime.SetActive(true);
+            StartTimer();
         }
         else if (ColorToHex(colorOfPlayer) != other.tag && gameManager.state == GameState.Play && gameManager.heartScore > 0)
         {
@@ -110,6 +131,25 @@ public class Player : MonoBehaviour
             {
                 scaleUpBool = true;
             }
+        }
+
+        if (timerActive == true)
+        {
+            currentTime = currentTime - Time.deltaTime;
+            if (currentTime <= 0)
+            {
+                timerActive = false;
+                currentTime = 0;
+            }
+        }
+        System.TimeSpan time = System.TimeSpan.FromSeconds(currentTime);
+        currentTimerText.text = time.Seconds.ToString();
+
+        if (timerActive == false && currentTime == 0)
+        {
+            currentTime = 10;
+            GaurdObject.SetActive(false);
+            ClockAndTime.SetActive(false);
         }
     }
 
@@ -191,6 +231,17 @@ public class Player : MonoBehaviour
         {
             ChangeColor();
             yield return new WaitForSeconds(12f);
+            Debug.Log("salam");
+            /*if (gameManager.currentScore > 4)
+            {
+                yield return new WaitForSeconds(2f);
+                Debug.Log("bishtar az 4");
+            }
+            else
+            {
+                yield return new WaitForSeconds(12f);
+                Debug.Log("salam");
+            }*/
             sameTagCollected = 0;
             scaleUpBool = false;
             scaleDownBool = false;
@@ -218,6 +269,15 @@ public class Player : MonoBehaviour
         {
             nowCanReplay = 2;
         }
+    }
+    public void StartTimer()
+    {
+        timerActive = true;
+    }
+
+    public void StopTimer()
+    {
+        timerActive = false;
     }
 
 }

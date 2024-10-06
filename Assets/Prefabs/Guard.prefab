@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 1827262867535794734}
   - component: {fileID: 1827262867535794735}
   - component: {fileID: 1827262867535794732}
+  - component: {fileID: -8051091560434279124}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Guard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1827262867535794721
 Transform:
@@ -187,3 +188,15 @@ PolygonCollider2D:
       - {x: 0.48999998, y: -2.49}
       - {x: 0.53, y: -2.44}
   m_UseDelaunayMesh: 0
+--- !u!210 &-8051091560434279124
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827262867535794733}
+  m_Enabled: 1
+  m_SortingLayerID: -1853837681
+  m_SortingLayer: 1
+  m_SortingOrder: 5
+  m_SortAtRoot: 0

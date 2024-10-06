@@ -13,7 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 initialTouchPosition;
     private Vector3 initialPlayerPosition;
     public Setting setting;
-    private int nowCanReplayPlayerMovment;
+    public GameObject targetObject;
+    //private int nowCanReplayPlayerMovment;
 
     private void Start()
     {
@@ -85,6 +86,12 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, mainPosition, 2f * Time.deltaTime);
         }
+
+        if (targetObject != null)
+        {
+            // Set this object's position to the target's position
+            targetObject.transform.position = new Vector3(transform.position.x, -2.606f, 0f);
+        }
     }
 
     public void Right_D()
@@ -107,11 +114,11 @@ public class PlayerMovement : MonoBehaviour
         left = false;
     }
 
-    public void NewPlayerAnimEndPlayerMovment(int intAnim)
+    /*public void NewPlayerAnimEndPlayerMovment(int intAnim)
     {
         if (intAnim == 1)
         {
             nowCanReplayPlayerMovment = 2;
         }
-    }
+    }*/
 }
